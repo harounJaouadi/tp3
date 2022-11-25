@@ -9,30 +9,37 @@ import { Skill } from './entities/skill.entity';
 export class SkillService {
   constructor(
     @InjectRepository(Skill)
-    private readonly SkillRepository : Repository<Skill>){}
+    private readonly SkillRepository: Repository<Skill>,
+  ) {}
 
   async create(createSkillDto: CreateSkillDto) {
-    const {designation} = createSkillDto ;
-    try{
-      const skillToAdd=new Skill() ; 
-      skillToAdd.designation=designation ; 
-      const foundedSkill=await this.SkillRepository.findOneBy({designation : designation}) ; 
-      if(!foundedSkill){
-        await this.SkillRepository.save(skillToAdd) ; 
-      }else{
+    const { designation } = createSkillDto;
+    try {
+      const skillToAdd = new Skill();
+      skillToAdd.designation = designation;
+      const foundedSkill = await this.SkillRepository.findOneBy({
+        designation: designation,
+      });
+      if (!foundedSkill) {
+        await this.SkillRepository.save(skillToAdd);
+      } else {
         return {
-          warning : "this skill exist"  
-        }
+          warning: 'this skill exist',
+        };
       }
-       
-    }catch(error){
-      return {message : error.message}
+    } catch (error) {
+      return { message: error.message };
     }
-    
+  } ;
+  async createforSeed(skill:Skill){
+    return this.SkillRepository.save(skill) ;
   }
-
   async findAll() {
-    return await this.SkillRepository.find() ; 
+    try {
+      return await this.SkillRepository.find();
+    } catch (error) {
+      return { message: error.message };
+    }
   }
 
   findOne(id: number) {

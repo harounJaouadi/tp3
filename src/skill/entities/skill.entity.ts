@@ -1,4 +1,4 @@
-import { Cv } from "src/cv/entities/cv.entity";
+import { Cv } from "../../cv/entities/cv.entity";
 import { Entity, PrimaryGeneratedColumn, Column, JoinTable, ManyToMany } from "typeorm";
 
 @Entity()
